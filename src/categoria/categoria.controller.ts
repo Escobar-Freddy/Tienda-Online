@@ -36,7 +36,7 @@ export class CategoriaController {
   }
 
   @Patch(':id')
-  @ApiOperation({ summary: 'Actualizar una categoría' })
+  @ApiOperation({ summary: 'Actualizar una de las categoría' })
   @ApiParam({ name: 'id', description: 'ID de la categoría' })
   @ApiBody({ type: UpdateCategoriaDto })
   @ApiResponse({ status: HttpStatus.OK, description: 'Categoría actualizada' })

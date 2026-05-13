@@ -5,6 +5,7 @@ import { Producto } from '../../producto/entities/producto.entity';
 export class Categoria {
   @PrimaryGeneratedColumn()
   idCategoria: number;
+  
 
   @Column({ type: 'varchar', length: 100 })
   nombre: string;
