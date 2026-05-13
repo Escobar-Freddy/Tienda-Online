@@ -4,7 +4,7 @@ import { CreateClienteDto } from './dto/create-cliente.dto';
 import { UpdateClienteDto } from './dto/update-cliente.dto';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody } from '@nestjs/swagger';
 
-@ApiTags('clientes')  // ← Agrupa endpoints por módulo
+@ApiTags('clientes') 
 @Controller('clientes')
 @UsePipes(new ValidationPipe({ transform: true }))
 export class ClienteController {

@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, IsNull } from 'typeorm';  // ← Importar IsNull
+import { Repository, IsNull } from 'typeorm';  
 import { Categoria } from './entities/categoria.entity';
 import { CreateCategoriaDto } from './dto/create-categoria.dto';
 import { UpdateCategoriaDto } from './dto/update-categoria.dto';
@@ -14,14 +14,14 @@ export class CategoriaService {
 
   async findAll(): Promise<Categoria[]> {
     return this.categoriaRepository.find({
-      where: { eliminadoEn: IsNull() },  // ← Cambiado: null → IsNull()
+      where: { eliminadoEn: IsNull() },  
       relations: ['productos'],
     });
   }
 
   async findOne(id: number): Promise<Categoria> {
     const categoria = await this.categoriaRepository.findOne({
-      where: { idCategoria: id, eliminadoEn: IsNull() },  // ← Cambiado
+      where: { idCategoria: id, eliminadoEn: IsNull() },  
       relations: ['productos'],
     });
     if (!categoria) {

@@ -139,3 +139,11 @@ GET /ordenes/{id} Obtener orden
 PATCH /ordenes/{id} Actualizar orden
 PATCH /ordenes/{id}/estado Cambiar estado
 DELETE /ordenes/{id} Eliminar orden
+
+### 3.1 **para Ejecutar el proyecto**
+
+npm run start:dev
+
+### documentacion
+
+http://localhost:3000/api/docs

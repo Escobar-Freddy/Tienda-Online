@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, IsNull } from 'typeorm';  // ← Importar IsNull
+import { Repository, IsNull } from 'typeorm';  
 import { Producto } from './entities/producto.entity';
 import { CreateProductoDto } from './dto/create-producto.dto';
 import { UpdateProductoDto } from './dto/update-producto.dto';
@@ -17,14 +17,14 @@ export class ProductoService {
 
   async findAll(): Promise<Producto[]> {
     return this.productoRepository.find({
-      where: { eliminadoEn: IsNull() },  // ← Cambiado
+      where: { eliminadoEn: IsNull() },  
       relations: ['categoria', 'ordenes'],
     });
   }
 
   async findOne(id: number): Promise<Producto> {
     const producto = await this.productoRepository.findOne({
-      where: { idProducto: id, eliminadoEn: IsNull() },  // ← Cambiado
+      where: { idProducto: id, eliminadoEn: IsNull() },  
       relations: ['categoria', 'ordenes'],
     });
     if (!producto) {
@@ -35,7 +35,7 @@ export class ProductoService {
 
   async create(createProductoDto: CreateProductoDto): Promise<Producto> {
     const categoria = await this.categoriaRepository.findOne({
-      where: { idCategoria: createProductoDto.categoriaId, eliminadoEn: IsNull() },  // ← Cambiado
+      where: { idCategoria: createProductoDto.categoriaId, eliminadoEn: IsNull() },  
     });
     
     if (!categoria) {
@@ -58,7 +58,7 @@ export class ProductoService {
     
     if (updateProductoDto.categoriaId) {
       const categoria = await this.categoriaRepository.findOne({
-        where: { idCategoria: updateProductoDto.categoriaId, eliminadoEn: IsNull() },  // ← Cambiado
+        where: { idCategoria: updateProductoDto.categoriaId, eliminadoEn: IsNull() },  
       });
       if (!categoria) {
         throw new NotFoundException(`Categoría con ID ${updateProductoDto.categoriaId} no encontrada`);
