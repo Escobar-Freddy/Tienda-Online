@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  # API NestJS
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    container_name: tienda-online-api
+    ports:
+      - '3000:3000'
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres123
+      - DB_NAME=tienda_online
+      - PORT=3000
+      - NODE_ENV=production
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - tienda-network
+    restart: unless-stopped
+    volumes:
+      - ./logs:/app/logs
+
+  # PostgreSQL
+  postgres:
+    image: postgres:15-alpine
+    container_name: tienda-online-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres123
+      - POSTGRES_DB=tienda_online
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - tienda-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d tienda_online']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # pgAdmin (opcional - útil para administrar DB)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: tienda-pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@tienda.com
+      - PGADMIN_DEFAULT_PASSWORD=admin123
+      - PGADMIN_CONFIG_SERVER_MODE=False
+    ports:
+      - '5050:80'
+    depends_on:
+      - postgres
+    networks:
+      - tienda-network
+    restart: unless-stopped
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+networks:
+  tienda-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  pgadmin_data:
