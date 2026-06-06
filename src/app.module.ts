@@ -20,7 +20,7 @@ import { OrdenProductoModule } from './orden-producto/orden-producto.module';
         port: configService.get<number>('DB_PORT', 5432),
         username: configService.get('DB_USER', 'postgres'),
         password: configService.get('DB_PASS', 'password'),
-        database: configService.get('DB_NAME', 'tienda_online'),
+        database: configService.get('DB_NAME', 'Tienda'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: true,
         logging: true,

@@ -1,0 +1,40 @@
+services:
+  # Servicio de PostgreSQL ELIMINADO - usas tu base local
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: tienda-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - '5050:80'
+    networks:
+      - tienda-network
+    profiles:
+      - with-pgadmin
+
+  api:
+    build: .
+    container_name: tienda-api
+    environment:
+      # CONEXIÓN A TU POSTGRESQL LOCAL (versión 18)
+      DB_HOST: host.docker.internal # ← Apunta a tu Windows
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASS: 1234567 # ← Tu contraseña real de PostgreSQL 18
+      DB_NAME: Tienda # ← Tu base de datos real
+      NODE_ENV: production
+    ports:
+      - '3000:3000'
+    extra_hosts:
+      - 'host.docker.internal:host-gateway' # Necesario para Windows
+    networks:
+      - tienda-network
+    restart: unless-stopped
+
+networks:
+  tienda-network:
+    driver: bridge
+
+# Volumen de PostgreSQL ELIMINADO - no lo necesitas
