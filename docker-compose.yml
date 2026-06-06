@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # API NestJS
   api:
@@ -13,8 +11,8 @@ services:
     environment:
       - DB_HOST=postgres
       - DB_PORT=5432
-      - DB_USERNAME=postgres
-      - DB_PASSWORD=postgres123
+      - DB_USER=postgres
+      - DB_PASS=postgres123
       - DB_NAME=tienda_online
       - PORT=3000
       - NODE_ENV=production
@@ -40,7 +38,7 @@ services:
       - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      #- ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - tienda-network
     restart: unless-stopped
